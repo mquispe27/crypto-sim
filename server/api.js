@@ -8,6 +8,7 @@
 */
 
 const express = require("express");
+const request = require('request');
 
 // import models so we can interact with the database
 const User = require("./models/user");
@@ -37,6 +38,16 @@ router.post("/initsocket", (req, res) => {
   if (req.user)
     socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
+});
+
+router.get("/samplerequest", (req, res) => {
+  console.log("buka");
+  request('https://api.kraken.com/0/public/Ticker?pair=SOLUSD', { json: true }, (err, res2, body) => {
+  if (err) { return console.log(err); }
+  console.log(body.url);
+  console.log(body.explanation);
+  res.send({res2, body});
+  });
 });
 
 // |------------------------------|

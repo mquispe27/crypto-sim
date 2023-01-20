@@ -13,7 +13,7 @@ const Indicator = (props) => {
     const [price, setPrice] = useState(0);
 
     useEffect(() => {  
-        get("https://api.kraken.com/0/public/Ticker?pair=xbtusd").then((crypto_data) => {
+        get("/api/samplerequest").then((crypto_data) => {
             console.log(crypto_data);
             setPrice(JSON.stringify(crypto_data));
         })
