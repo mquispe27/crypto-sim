@@ -1,4 +1,18 @@
 /* Fill me in :) */
 .temp {
     background-color: #4960a6;
+    font-family: 'Montserrat';
+    color: white;
+    font-size: 22px;
+    
+}
+
+.skeletonLogo {
+    width: 500px;
+    height: auto;
+}
+
+.googleButton {
+    margin: 0 auto;
+    text-align: center;
 }

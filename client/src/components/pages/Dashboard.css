@@ -1,0 +1,19 @@
+.text {
+    color: white;
+    font-family: "Montserrat";
+    margin: 50px 50px;
+    text-align: center;
+}
+
+.body-text {
+    color: black;
+    font-family: "Montserrat";
+    margin: 50px 50px;
+}
+
+.listContainer {
+    background-color: #c9daf8;
+    margin: 50px 50px;
+    padding: 50px 50px;
+    border-radius: 25px;
+}

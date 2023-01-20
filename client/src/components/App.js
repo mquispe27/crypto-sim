@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import jwt_decode from "jwt-decode";
+import $ from 'jquery';
+
+
+
 
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import Profile from "./pages/Profile.js";
+import Dashboard from "./pages/Dashboard.js";
+import Leaderboard from "./pages/Leaderboard.js";
+
+import Header from "./modules/Header.js";
+
 
 import "../utilities.css";
 
@@ -14,6 +24,9 @@ import { get, post } from "../utilities";
 /**
  * Define the "App" component
  */
+
+
+
 const App = () => {
   const [userId, setUserId] = useState(undefined);
 
@@ -43,10 +56,23 @@ const App = () => {
 
   return (
     <>
-      <Router>
+    
+      
+      <Header
+        handleLogin={handleLogin}
+        handleLogout={handleLogout}
+        userId={userId}
+      />
+      
+  
+      <Router className="body">
         <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
+        <Profile path="/profile/:userId" />
+        <Dashboard path="/dashboard/" userId={userId} />
+        <Leaderboard path ="/leaderboard/" userId = {userId}/>
         <NotFound default />
       </Router>
+      
     </>
   );
 };

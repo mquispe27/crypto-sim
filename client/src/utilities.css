@@ -16,10 +16,12 @@
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 :root {
-  --primary: #396dff;
+  --primary: #4960a6;
   --primary--dim: #6987db;
+  --containercolor: #c9daf8;
   --darkgrey: #d4d4d4;
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
@@ -32,6 +34,7 @@
 }
 
 body {
+  background-color: #4960a6;
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
@@ -61,6 +64,10 @@ form {
 
 .u-inlineBlock {
   display: inline-block;
+}
+
+.u-flexjustifyEnd {
+  justify-content: flex-end;
 }
 
 .u-bold {

@@ -1,0 +1,39 @@
+.Header-container {
+    padding: var(--s) var(--m);
+    background-color: var(--primary);
+  }
+  
+  .Header-title {
+    color: var(--white);
+    font-size: 20px;
+  }
+  
+  .Header-linkContainer {
+    margin-left: var(--l);
+  }
+  
+  .Header-link,
+  .Header-link:visited {
+    color: var(--white);
+    
+    text-decoration: none;
+  }
+  
+  .Header-link:hover {
+    opacity: 0.8;
+  }
+  
+  .Header-link.Header-login {
+    opacity: 1;
+  }
+  
+  .Header-link + .Header-link {
+    margin-left: var(--m);
+  }
+  
+  .logo {
+    
+    max-width: 15%;
+    height: auto;
+    margin-right: auto;
+  }
