@@ -5,10 +5,11 @@
     text-align: center;
 }
 
-.body-text {
+.bodytext {
     color: black;
     font-family: "Montserrat";
     margin: 50px 50px;
+    font-size: 30px;
 }
 
 .listContainer {
@@ -17,3 +18,8 @@
     padding: 50px 50px;
     border-radius: 25px;
 }
+
+.table-flex {
+    justify-content: center;
+}
+

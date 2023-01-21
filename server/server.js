@@ -37,6 +37,8 @@ const mongoConnectionURL = "mongodb+srv://mquispe:Areay124fd7@cluster0.6ysapkx.m
 // TODO change database name to the name you chose
 const databaseName = "Cluster0";
 
+require('dotenv').config();
+
 // connect to mongodb
 mongoose
   .connect(mongoConnectionURL, {
@@ -100,6 +102,6 @@ const port = 3000;
 const server = http.Server(app);
 socketManager.init(server);
 
-server.listen(port, () => {
+server.listen( port, () => {
   console.log(`Server running on port: ${port}`);
 });

@@ -1,5 +1,35 @@
 .body-text {
     color: black;
     font-family: "Montserrat";
-    margin: 50px 50px;
+    font-size: 35px;
+}
+
+.table-flex {
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+    
+}
+
+.icon {
+    width: 70px;
+    height: 70px;
+
+}
+
+.index {
+    width: 300px;
+}
+
+.price {
+    width: 400px;
+}
+
+.last {
+    width: 400px;
+}
+
+.change {
+    width: 400px;
 }
