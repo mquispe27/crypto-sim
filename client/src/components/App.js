@@ -29,15 +29,17 @@ import { get, post } from "../utilities";
 
 const App = () => {
   const [userId, setUserId] = useState(undefined);
+  const [googleId, setGoogleId] = useState("?");
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         setUserId(user._id);
+        setGoogleId(user.googleid);
       }
     });
-  }, []);
+  }, [googleId]);
 
   const handleLogin = (credentialResponse) => {
     const userToken = credentialResponse.credential;
@@ -67,8 +69,8 @@ const App = () => {
   
       <Router className="body">
         <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <Profile path="/profile/:userId" />
-        <Dashboard path="/dashboard/" userId={userId} />
+        <Profile path="/profile/:userId"  userId={userId} />
+        <Dashboard path="/dashboard/" userId={userId} googleid = {googleId} />
         <Leaderboard path ="/leaderboard/" userId = {userId}/>
         <NotFound default />
       </Router>

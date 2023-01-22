@@ -55,3 +55,20 @@
     margin: var(--m) var(--s);
   }
   
+  .listContainer {
+    background-color: #c9daf8;
+    margin: 50px 50px;
+    padding: 50px 50px;
+    border-radius: 25px;
+}
+
+.bodytext {
+  color: black;
+  font-family: "Montserrat";
+  margin: 50px 50px;
+  font-size: 30px;
+}
+
+.margin-num {
+  margin: 50px;
+}

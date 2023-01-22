@@ -31,7 +31,7 @@ const Indicator = (props) => {
       const intervalId = setInterval(() => {
 
       
-      console.log(props.ind);
+      
       switch(props.ind) {
         case "ADA":
           get("/api/ADArequest").then((crypto_data) => {

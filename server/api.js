@@ -13,6 +13,7 @@ const INDICATORS = ["ADA", "BTC", "DOGE", "DOT", "ETH", "MATIC", "SHIB", "SOL", 
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const UserCryptos = require("./models/userCryptos");
 
 // import authentication library
 const auth = require("./auth");
@@ -34,12 +35,49 @@ router.get("/whoami", (req, res) => {
   res.send(req.user);
 });
 
+router.get("/user", (req, res) => {
+  User.findById(req.query.userid).then((user) => {
+    res.send(user);
+  });
+});
+
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
   if (req.user)
     socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
   res.send({});
 });
+
+
+
+router.post("/userCryptos",auth.ensureLoggedIn, (req, res) => {
+  const newUserCryptos = new UserCryptos({
+    name: req.body.name,
+    googleid: req.body.googleid,
+    balance: req.body.balance,
+    cash: req.body.cash,
+    numCryptosOwned: req.body.numCryptosOwned,
+    cryptosOwned: req.body.cryptosOwned,
+    valsAtPurchase: req.body.valsAtPurchase,
+});
+
+  newUserCryptos.save().then((userCryptoData) => res.send(userCryptoData));
+});
+
+router.post("/transactionUpdateRequest",auth.ensureLoggedIn, (req, res) => {
+
+  console.log("WHY");
+  UserCryptos.updateMany({googleid: req.body.googleid}, {
+    $inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned, cryptosOwned: req.body.cryptosOwned}
+  }).then((userCryptoData) => res.send(userCryptoData));
+
+ 
+});
+//$inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned}
+router.get("/userCryptoRequest", auth.ensureLoggedIn, (req, res) => {
+  UserCryptos.findOne({googleid: req.query.googleid}).then((userCryptoData) => res.send(userCryptoData));
+});
+
 
 
   router.get("/ADArequest", (req, res) => {
