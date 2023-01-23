@@ -8,16 +8,16 @@ import { get } from "../../utilities";
 import "./Indicator.css";
 
 
-import ADA from "../../public/ADA.jpg";
-import BTC from "../../public/BTC.png";
-import DOGE from "../../public/DOGE.png";
-import DOT from "../../public/DOT.png";
-import ETH from "../../public/ETH.png";
-import MATIC from "../../public/MATIC.png";
+import ADA from "../../public/ada.jpg";
+import BTC from "../../public/btc.png";
+import DOGE from "../../public/doge.png";
+import DOT from "../../public/dot.png";
+import ETH from "../../public/eth.png";
+import MATIC from "../../public/matic.png";
 import SHIB from "../../public/SHIB.png";
-import SOL from "../../public/SOL.png";
-import USDT from "../../public/USDT.png";
-import XRP from "../../public/XRP.png";
+import SOL from "../../public/sol.png";
+import USDT from "../../public/usdt.png";
+import XRP from "../../public/xrp.png";
 
 const api_url = "https://api.kraken.com/0/public/Ticker?pair=";
 
