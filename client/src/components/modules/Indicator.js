@@ -154,7 +154,7 @@ const Indicator = (props) => {
       }, 1000)
       return () => clearInterval(intervalId);
         
-    }, [last, price])
+    }, [last, price, percentChange])
 
     
     return (

@@ -112,28 +112,161 @@ const Dashboard = (props) => {
       alert("Transaction did not go through. Reload or log in and try again.");
       return;
     }
-    const cash  = await get(`/api/userCryptoRequest`, { googleid: props.googleid });
+    
+    
 
-    if (cash.cash.$numberDecimal < potentialAmount) {
-      alert("Error: You do not have enough cash! Please buy fewer crypto and try again.");
-      return;
+    if (buySell == "buy") {
+      const cash  = await get(`/api/userCryptoRequest`, { googleid: props.googleid });
+      if (cash.cash.$numberDecimal < potentialAmount) {
+        alert("Error: You do not have enough cash! Please buy fewer crypto and try again.");
+        return;
+      }
+      
+      
+      post("/api/transactionUpdateRequest", {
+        googleid: props.googleid,
+        cash: potentialAmount,
+        numCryptosOwned: quantity,
+        cryptosOwned: option,
+        valsAtPurchase: potentialAmount,
+        dates: new Date().toLocaleString()
+
+
+      }).then((userCryptoObj) => {console.log(userCryptoObj); alert("Transaction complete!")});
     }
+
+    else if (buySell == "sell") {
+      const req  = await get(`/api/userCryptoRequest`, { googleid: props.googleid });
+      const cryptosOwned = req.cryptosOwned;
+      const numCryptosOwned = req.numCryptosOwned;
+
+
+    let ADAnum = 0;
+    let BTCnum = 0;
+    let DOGEnum = 0;
+    let DOTnum = 0;
+    let ETHnum = 0;
+    let MATICnum = 0;
+    let SHIBnum = 0;
+    let SOLnum = 0;
+    let USDTnum = 0;
+    let XRPnum = 0;
+    if (cryptosOwned != undefined && numCryptosOwned != undefined) {
+      for (let i = 0; i < cryptosOwned.length; i++) {
+        switch(cryptosOwned[i]) {
+          case "ADA":
+            ADAnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "BTC":
+            BTCnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "DOGE":
+            DOGEnum = parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "DOT":
+            DOTnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "ETH":
+            ETHnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "MATIC":
+            MATICnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "SHIB":
+            SHIBnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "SOL":
+            SOLnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "USDT":
+            USDTnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+          case "XRP":
+            XRPnum += parseFloat(numCryptosOwned[i].$numberDecimal);
+            break;
+        }
+      }
+      switch (option) {
+        case "ADA":
+          if (quantity > ADAnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "BTC":
+          if (quantity > BTCnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "DOGE":
+          if (quantity > DOGEnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "DOT":
+          if (quantity > DOTnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "ETH":
+          if (quantity > ETHnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "MATIC":
+          if (quantity > MATICnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "SHIB":
+          if (quantity > SHIBnum) {
+            alert("You are selling more than you have. You have " + SHIBnum + " SHIB. Please try again.");
+            return;
+          }
+          break;
+        case "SOL":
+          if (quantity > SOLnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "USDT":
+          if (quantity > USDTnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+        case "XRP":
+          if (quantity > XRPnum) {
+            alert("You are selling more than you have. Please try again.");
+            return;
+          }
+          break;
+      }
     
-    post("/api/transactionUpdateRequest", {
-      googleid: props.googleid,
-      cash: potentialAmount,
-      numCryptosOwned: quantity,
-      cryptosOwned: option,
-      valsAtPurchase: potentialAmount / quantity,
 
 
-    }).then((userCryptoObj) => {console.log(userCryptoObj); alert("Transaction complete!")});
-    
+
+      post("/api/transactionUpdateRequest", {
+        googleid: props.googleid,
+        cash: -1 * potentialAmount,
+        numCryptosOwned: -1 * quantity,
+        cryptosOwned: option,
+        valsAtPurchase: -1 * potentialAmount,
+        dates: new Date().toLocaleString()
 
 
+      }).then((userCryptoObj) => {console.log(userCryptoObj); alert("Transaction complete!")});
+    }
 
 
   }
+}
 
 
 
@@ -143,14 +276,17 @@ const Dashboard = (props) => {
 
 
   function handleChange(event){
+    setbuttonRender(false);
     return setOption(event.target.value).then(() => calculateAmount());
     
   }
   function handleChange2(event){
+    setbuttonRender(false);
     return setBuySell(event.target.value).then(() => calculateAmount());
     
   }
   function handleChange3(event){
+    setbuttonRender(false);
     if (event.target.value != undefined)
       return setQuantity(event.target.value).then(() => calculateAmount());
     

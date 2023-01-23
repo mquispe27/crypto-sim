@@ -59,6 +59,7 @@ router.post("/userCryptos",auth.ensureLoggedIn, (req, res) => {
     numCryptosOwned: req.body.numCryptosOwned,
     cryptosOwned: req.body.cryptosOwned,
     valsAtPurchase: req.body.valsAtPurchase,
+    dates: req.body.dates
 });
 
   newUserCryptos.save().then((userCryptoData) => res.send(userCryptoData));
@@ -68,7 +69,7 @@ router.post("/transactionUpdateRequest",auth.ensureLoggedIn, (req, res) => {
 
   console.log("WHY");
   UserCryptos.updateMany({googleid: req.body.googleid}, {
-    $inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned, cryptosOwned: req.body.cryptosOwned}
+    $inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned, cryptosOwned: req.body.cryptosOwned, valsAtPurchase: req.body.valsAtPurchase, dates: req.body.dates}
   }).then((userCryptoData) => res.send(userCryptoData));
 
  

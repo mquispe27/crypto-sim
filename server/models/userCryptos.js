@@ -8,6 +8,7 @@ const UserCryptosSchema = new mongoose.Schema({
   numCryptosOwned: [mongoose.SchemaTypes.Decimal128],
   cryptosOwned: [String],
   valsAtPurchase: [mongoose.SchemaTypes.Decimal128],
+  dates: [String]
 
 });
 
