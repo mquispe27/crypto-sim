@@ -9,6 +9,9 @@
 
 const express = require("express");
 const request = require('request');
+
+
+
 const INDICATORS = ["ADA", "BTC", "DOGE", "DOT", "ETH", "MATIC", "SHIB", "SOL", "USDT", "XRP"];
 
 // import models so we can interact with the database
@@ -77,6 +80,10 @@ router.post("/transactionUpdateRequest",auth.ensureLoggedIn, (req, res) => {
 //$inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned}
 router.get("/userCryptoRequest", auth.ensureLoggedIn, (req, res) => {
   UserCryptos.findOne({googleid: req.query.googleid}).then((userCryptoData) => res.send(userCryptoData));
+});
+
+router.get("/leaderboardRequest", auth.ensureLoggedIn, (req, res) => {
+  User.distinct("googleid").then(userList => res.send(userList));
 });
 
 
