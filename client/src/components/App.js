@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard.js";
 import Leaderboard from "./pages/Leaderboard.js";
 
 import Header from "./modules/Header.js";
+import Footer from "./modules/Footer.js";
 
 
 import "../utilities.css";
@@ -53,6 +54,7 @@ const App = () => {
 
   const handleLogout = () => {
     setUserId(undefined);
+    setGoogleId("?")
     post("/api/logout");
   };
 
@@ -71,9 +73,11 @@ const App = () => {
         <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
         <Profile path="/profile/:userId"  userId={userId} />
         <Dashboard path="/dashboard/" userId={userId} googleid = {googleId} />
-        <Leaderboard path ="/leaderboard/" userId = {userId}/>
+        <Leaderboard path ="/leaderboard/" userId = {userId} googleid = {googleId} />
         <NotFound default />
       </Router>
+
+      <Footer/>
       
     </>
   );

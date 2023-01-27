@@ -33,6 +33,7 @@ const Profile = (props) => {
   const [numCryptosOwned, setNumCryptosOwned] = useState();
   const [purchaseAmount, setPurchaseAmount] = useState();
   const [dates, setDates] = useState();
+  const [leagues, setLeagues] = useState();
 
   const [hasRun, setHasRun] = useState(false);
 
@@ -137,6 +138,7 @@ const Profile = (props) => {
           cryptosOwned: [],
           valsAtPurchase: [],
           dates: [],
+          leagues: [],
         }).then((userObj) => {
 
           setHasRun(true);

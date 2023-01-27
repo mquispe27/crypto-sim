@@ -17,6 +17,7 @@ const INDICATORS = ["ADA", "BTC", "DOGE", "DOT", "ETH", "MATIC", "SHIB", "SOL", 
 // import models so we can interact with the database
 const User = require("./models/user");
 const UserCryptos = require("./models/userCryptos");
+const League = require("./models/league");
 
 // import authentication library
 const auth = require("./auth");
@@ -78,12 +79,49 @@ router.post("/transactionUpdateRequest",auth.ensureLoggedIn, (req, res) => {
  
 });
 //$inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned}
-router.get("/userCryptoRequest", auth.ensureLoggedIn, (req, res) => {
+router.get("/userCryptoRequest", (req, res) => {
   UserCryptos.findOne({googleid: req.query.googleid}).then((userCryptoData) => res.send(userCryptoData));
 });
 
-router.get("/leaderboardRequest", auth.ensureLoggedIn, (req, res) => {
+router.get("/leaderboardRequest", (req, res) => {
   User.distinct("googleid").then(userList => res.send(userList));
+});
+
+
+
+router.get("/leaguesRequest", auth.ensureLoggedIn, (req, res) => {
+  League.findOne({code: req.query.code}).then((leagueFound) => res.send(leagueFound));
+});
+
+router.post("/joinRequest", auth.ensureLoggedIn, (req, res) => {
+  League.updateOne({code: req.body.code}, {
+    
+    $push: {users: req.body.users}
+  }).then((output) => res.send(output));
+});
+
+router.post("/leaveRequest", auth.ensureLoggedIn, (req, res) => {
+  League.updateOne({code: req.body.code}, {
+    
+    $pull: {users: req.body.users}
+  }).then((output) => res.send(output));
+});
+
+router.post("/createLeagueRequest", auth.ensureLoggedIn, (req, res) => {
+  const newLeague = new League({
+    name: req.body.name,
+    code: req.body.code,
+    creator: req.body.creator,
+    users: req.body.users
+  });
+  newLeague.save().then((data) => res.send(data));
+  
+});
+
+router.get("/belongRequest", auth.ensureLoggedIn, (req, res) => {
+
+  League.find({users: req.query.users} ).then((output) => {console.log(output); res.send(output);});
+
 });
 
 

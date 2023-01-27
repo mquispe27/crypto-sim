@@ -5,6 +5,8 @@ import { get, post } from "../../utilities"
 import "../../utilities.css";
 import "./Leaderboard.css";
 
+import MiniLeague from "../modules/MiniLeague.js";
+
 const Leaderboard = (props) => {
 
 const INDICATORS = ["ADA", "BTC", "DOGE", "DOT", "ETH", "MATIC", "SHIB", "SOL", "USDT", "XRP"];
@@ -13,15 +15,30 @@ const [balanceList, setBalanceList] = useState([]);
 const [userList, setUserList] = useState([]);
 const [user, setUser] = useState();
 const [sorted, setSorted] = useState(false);
+const [readyToSort, setReadyToSort] = useState(false);
+const [numList, setNumList] = useState();
+
+const [createdCode, setCreatedCode] = useState(false);
+const [code, setCode] = useState();
+const [joinBox, setJoinBox] = useState(false);
+
+const [input, setInput] = useState();
+const [createInput, setCreateInput] = useState();
+
+const [hasMiniLeagues, setMiniLeagues] = useState(false);
+
+const [leaguesList, setLeaguesList] = useState();
+
+const [renderMini, setRenderMini] = useState(false);
 
 var sortIds = require('sort-ids');
 var reorder = require('array-rearrange');
 
 
 async function LeaderboardStuff() {
-    console.log("How many times this finna run?");
+
     let all_user_ids = await get("/api/leaderboardRequest");
-    console.log(all_user_ids);
+
 
     for (const user_ of all_user_ids) {
         let info = await get("/api/userCryptoRequest", {googleid: user_});
@@ -100,7 +117,7 @@ async function LeaderboardStuff() {
     }
     
     }
-
+    setReadyToSort(true);
 
 }
 
@@ -122,6 +139,15 @@ function checkifBalancesDefined() {
     }
 }
 
+function checkifRanksDefined() {
+    if (numList != undefined ) {
+        return numList.map((rank) => <div> {rank}.</div>);
+    }
+    else {
+        return (<div>Not available.</div>);
+    }
+}
+
 function sort() {
 
     /*if (balanceList != undefined && balanceList.length == 4 && userList.length == 4 && sorted == false) {
@@ -129,9 +155,8 @@ function sort() {
         
     }
     */
-   console.log(balanceList);
-   console.log(userList);
-   if (sorted == false && balanceList != undefined && balanceList.length > 3 && userList != undefined && userList.length > 3) {
+
+   if (readyToSort == true && sorted == false && balanceList != undefined && balanceList.length > 0 && userList != undefined && userList.length > 0) {
         /*
         var ids = sortIds(balanceList);
         console.log("Blame Pessi for this: ");
@@ -146,19 +171,109 @@ function sort() {
         console.log(balanceList);
         console.log(userList);
         */
+        var foo = [];
+
+        for (var i = 1; i <= balanceList.length; i++) {
+           foo.push(i);
+        }
+
+        setNumList(foo);
+        setSorted(true);
+        setReadyToSort(false);
         let sorted_arr = balanceList.slice().sort(function(a, b){return b - a});
-        console.log(sorted_arr);
+
         let users = [];
         for (let i = 0; i < balanceList.length; i++) {
             users = users.concat(userList[balanceList.indexOf(sorted_arr[i])]);
         }
         setUserList(users);
         setBalanceList(sorted_arr);
-        setSorted(true);
+        
+        
    }
 
 }
 
+
+function createLeague() {
+    const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const charactersLength = alpha.length;
+    let code = "";
+    for (let i = 0; i < 6; i++) {
+        code += alpha.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    console.log(props.googleid);
+    if (props.googleid == "?") {
+        alert("Creating league failed. Please reload and try again.");
+        return;
+    }
+    console.log(createInput);
+    if (createInput == undefined || createInput == "") {
+        alert("Please enter a name.");
+        return;
+    }
+    setCode(code);
+    setCreatedCode(true);
+    post("/api/createLeagueRequest", {
+        name: createInput,
+        code: code,
+        creator: props.googleid,
+        users: [props.googleid]
+    });
+
+
+}
+function hide() {
+    setCreatedCode(false);
+}
+function makeJoinAppear() {
+    setJoinBox(true);
+}
+
+
+function handleInput(event) {
+    setInput(event.target.value);
+}
+
+function handleInput2(event) {
+    setCreateInput(event.target.value);
+}
+
+async function handleJoinLeague() {
+    console.log(input);
+    const leagueQuery = await get("/api/leaguesRequest", {code: input}).catch(() => {alert("League not found. Please try again."); return;});
+    console.log(props.googleid);
+    if (leagueQuery.users.includes(props.googleid)) {
+        alert("You are already in the league!");
+        return;
+    }
+
+    if (props.googleid == "?") {
+        alert("Issue in joining league. Reload and try again.");
+        return;
+    }
+    post("/api/joinRequest", {
+        code: leagueQuery.code,
+        users: props.googleid
+    })
+    alert("Successfully joined!");
+}
+
+
+function viewMiniLeagues() {
+    if (!renderMini && props.googleid != "?") {
+        console.log(props.googleid);
+        get("/api/belongRequest", {users: props.googleid}).then((leagues) => {
+            console.log(leagues);
+            setLeaguesList(leagues);
+            setRenderMini(true);
+            setMiniLeagues(true);
+
+
+        }).catch(() => { console.log("Not found bitch"); setMiniLeagues(false); setRenderMini(true); return; });
+    }
+    
+}
 
 useEffect(() => {
     document.title = "Leaderboard";
@@ -177,17 +292,59 @@ useEffect(() => {
             <h1 className = "text">Leaderboard</h1>
             <div className = "listContainer bodytext">
                 <div className="u-flex u-flex-justifyCenter">
+                {sort()}
                     <div className="u-block margin-num">
-                        {sort()}
-                        <div>Name: </div>
-                        {sorted ? checkifUsersDefined(): (<div></div>)}
+                        <div> </div>
+                        {sorted ? checkifRanksDefined(): (<div></div>)}
                     </div>
                     <div className="u-block margin-num">
-                        <div>Balance: </div>
+                        
+                        <div></div>
+                        {sorted ? checkifUsersDefined(): (<div>Loading...</div>)}
+                    </div>
+                    <div className="u-block margin-num">
+                        <div></div>
                         {sorted ? checkifBalancesDefined() : (<div></div>)}
                             
                     </div>
                 </div>
+            </div>
+            <h1 className = "text">Mini Leagues</h1>
+            <div className = "listContainer bodytext textCenter ">
+                <div className="u-flex u-flex-justifyCenter alignCenter">
+                    <div> Enter name of league: </div>
+                    <input id="create-league"type="text" onChange={handleInput2} />  
+                    <button id="create" onClick={createLeague} className="transaction" >Create a League</button>
+                    
+                    
+                </div>
+                <button id="join" onClick={makeJoinAppear}className="transaction"> Join a League </button>
+                {createdCode ? (
+                <>
+                    <div className = "textCenter"> You created a new league. The code is {code}. Share it with other users! </div>
+                    <button onClick={hide}  className="transaction">Dismiss </button>
+                </>
+                ) : (<></>
+                ) }
+                {joinBox ? (
+                <>
+                    <input id="join-league"type="text" onChange={handleInput} />
+                    <button onClick={handleJoinLeague}  className="transaction"> Join </button>
+                </>
+                    ) : (<></>)}
+                {hasMiniLeagues ? (
+                <>
+                    {leaguesList.map((league) => (<MiniLeague league={league} googleid = {props.googleid}></MiniLeague>))}
+                </>
+                ) :
+                (
+                    <>
+                    <div className="textCenter"> You are in no mini leagues.</div>
+                    <div className="textCenter"> Create or join one now!</div>
+                    </>
+                )}
+                
+                {viewMiniLeagues()}
             </div>
         </>
     )

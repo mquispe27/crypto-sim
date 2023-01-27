@@ -1,0 +1,15 @@
+.footer-size {
+    font-size: 12px;
+    font-family: 'Montserrat';
+    background-color: rgb(5, 43, 77);
+    color: white;
+    position: fixed;
+    left:0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+}
