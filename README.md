@@ -7,3 +7,8 @@ Crypto.sim is a simulated cryptocurrency trading platform that allows users to b
 Users start with $100,000 and must make decisions to maximize their returns and be on top of the leaderboard.
 
 This can also be used in schools, clubs, or groups of friends through the option of mini leagues.
+
+
+Technologies used: React, Node, MongoDB
+
+Kraken REST API for live crypto prices - https://docs.kraken.com/rest/
