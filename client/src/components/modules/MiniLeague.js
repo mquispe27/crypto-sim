@@ -15,8 +15,7 @@ const MiniLeague = (props) => {
     const [numList, setNumList] = useState();
 
     async function LeaderboardStuff() {
-        console.log(props.league);
-        console.log(props.league.users);
+
 
         let all_user_ids = props.league.users;
 
@@ -129,28 +128,9 @@ const MiniLeague = (props) => {
         }
     }
     function sort() {
-
-        /*if (balanceList != undefined && balanceList.length == 4 && userList.length == 4 && sorted == false) {
-            
-            
-        }
-        */
     
        if (readyToSort == true && sorted == false && balanceList != undefined && balanceList.length > 0 && userList != undefined && userList.length > 0) {
-            /*
-            var ids = sortIds(balanceList);
-            console.log("Blame Pessi for this: ");
-            console.log(reorder(balanceList, ids));
-            console.log(reorder(userList, ids));
-    
-            //setBalanceList(reorder(balanceList, ids));
-            //setUserList(reorder(userList, ids));
-            setSorted(true);
-    
-            console.log("After: ");
-            console.log(balanceList);
-            console.log(userList);
-            */
+            
             var foo = [];
     
             for (var i = 1; i <= balanceList.length; i++) {

@@ -22,6 +22,7 @@ const Skeleton = ({ userId, handleLogin, handleLogout }) => {
         <img src={logo} className="skeletonLogo"></img>
       </div>
       <div className = "u-textCenter">Play with a Google account now! </div>
+      <div className = "u-textCenter"> First time? Please head to the Profile page first to initialize your account. </div>
       {userId ? (
         <button className="u-textCenter googleButton"
           onClick={() => {

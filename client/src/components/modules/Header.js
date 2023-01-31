@@ -35,44 +35,6 @@ const Header = (props) => {
       </div>
     </nav>
   );
-  
-    <nav className="Header-container">
-    
-      
-      <div className="Header-linkContainer u-inlineBlock">
-        <Link to="/" className="Header-link">
-          HOME
-        </Link>
-        
-        <Link to="/dashboard/" className="Header-link">
-          MAKE TRADES
-        </Link>
-
-        {props.userId && (
-          <Link to={`/profile/${props.userId}`} className="Header-link">
-            PROFILE
-          </Link>
-        )}
-
-        {props.userId ? (
-          <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={props.handleLogout}
-            onFailure={(err) => console.log(err)}
-            className="Header-link Header-login"
-          />
-        ) : (
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={props.handleLogin}
-            onFailure={(err) => console.log(err)}
-            className="Header-link Header-login"
-          />
-        )}
-      </div>
-    </nav>
       
   
 };

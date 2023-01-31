@@ -132,7 +132,7 @@ const Dashboard = (props) => {
         dates: new Date().toLocaleString()
 
 
-      }).then((userCryptoObj) => {console.log(userCryptoObj); alert("Transaction complete!")});
+      }).then((userCryptoObj) => {alert("Transaction complete!")});
     }
 
     else if (buySell == "sell") {
@@ -261,7 +261,7 @@ const Dashboard = (props) => {
         dates: new Date().toLocaleString()
 
 
-      }).then((userCryptoObj) => {console.log(userCryptoObj); alert("Transaction complete!")});
+      }).then((userCryptoObj) => {alert("Transaction complete!")});
     }
 
 

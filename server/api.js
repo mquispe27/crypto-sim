@@ -71,7 +71,6 @@ router.post("/userCryptos",auth.ensureLoggedIn, (req, res) => {
 
 router.post("/transactionUpdateRequest",auth.ensureLoggedIn, (req, res) => {
 
-  console.log("WHY");
   UserCryptos.updateMany({googleid: req.body.googleid}, {
     $inc: {cash: -req.body.cash}, $push: {numCryptosOwned: req.body.numCryptosOwned, cryptosOwned: req.body.cryptosOwned, valsAtPurchase: req.body.valsAtPurchase, dates: req.body.dates}
   }).then((userCryptoData) => res.send(userCryptoData));
@@ -120,7 +119,7 @@ router.post("/createLeagueRequest", auth.ensureLoggedIn, (req, res) => {
 
 router.get("/belongRequest", auth.ensureLoggedIn, (req, res) => {
 
-  League.find({users: req.query.users} ).then((output) => {console.log(output); res.send(output);});
+  League.find({users: req.query.users} ).then((output) => {res.send(output);});
 
 });
 
