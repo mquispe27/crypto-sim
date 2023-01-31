@@ -150,27 +150,10 @@ function checkifRanksDefined() {
 
 function sort() {
 
-    /*if (balanceList != undefined && balanceList.length == 4 && userList.length == 4 && sorted == false) {
-        
-        
-    }
-    */
+
 
    if (readyToSort == true && sorted == false && balanceList != undefined && balanceList.length > 0 && userList != undefined && userList.length > 0) {
-        /*
-        var ids = sortIds(balanceList);
-        console.log("Blame Pessi for this: ");
-        console.log(reorder(balanceList, ids));
-        console.log(reorder(userList, ids));
 
-        //setBalanceList(reorder(balanceList, ids));
-        //setUserList(reorder(userList, ids));
-        setSorted(true);
-
-        console.log("After: ");
-        console.log(balanceList);
-        console.log(userList);
-        */
         var foo = [];
 
         for (var i = 1; i <= balanceList.length; i++) {
@@ -202,12 +185,12 @@ function createLeague() {
     for (let i = 0; i < 6; i++) {
         code += alpha.charAt(Math.floor(Math.random() * charactersLength));
     }
-    console.log(props.googleid);
+
     if (props.googleid == "?") {
         alert("Creating league failed. Please reload and try again.");
         return;
     }
-    console.log(createInput);
+
     if (createInput == undefined || createInput == "") {
         alert("Please enter a name.");
         return;
@@ -240,9 +223,9 @@ function handleInput2(event) {
 }
 
 async function handleJoinLeague() {
-    console.log(input);
+
     const leagueQuery = await get("/api/leaguesRequest", {code: input}).catch(() => {alert("League not found. Please try again."); return;});
-    console.log(props.googleid);
+
     if (leagueQuery.users.includes(props.googleid)) {
         alert("You are already in the league!");
         return;
@@ -262,25 +245,22 @@ async function handleJoinLeague() {
 
 function viewMiniLeagues() {
     if (!renderMini && props.googleid != "?") {
-        console.log(props.googleid);
+
         get("/api/belongRequest", {users: props.googleid}).then((leagues) => {
-            console.log(leagues);
+
             setLeaguesList(leagues);
             setRenderMini(true);
             setMiniLeagues(true);
 
 
-        }).catch(() => { console.log("Not found bitch"); setMiniLeagues(false); setRenderMini(true); return; });
+        }).catch(() => { setMiniLeagues(false); setRenderMini(true); return; });
     }
     
 }
 
 useEffect(() => {
     document.title = "Leaderboard";
-    /*if (props.userId != "?") {
-        get(`/api/user`, { userid: props.userId }).then((userObj) => setUser(userObj));
-    }*/
-    
+
     LeaderboardStuff();
 
         
